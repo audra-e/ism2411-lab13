@@ -1,0 +1,133 @@
+"""
+ISM2411 Lab 13 — First DataFrame — Retail Sales Explorer
+
+Name: Audra
+
+Reflection Questions:
+
+1. A boolean filter selects rows that meet a condition.
+   For example, it can show only sales from the South region.
+
+2. df["revenue"] returns a Series (one column).
+   df[["revenue"]] returns a DataFrame (a table with one column).
+   This matters when you need to work with one column versus a table.
+
+3. Pandas makes it easier to organize, filter, calculate,
+   and analyze large amounts of data using Python.
+   It also allows you to repeat your work quickly.
+"""
+
+import pandas as pd
+
+# ==========================================
+# EXERCISE 1 — LOAD IT
+# ==========================================
+
+df = pd.read_csv('data/retail_sales.csv')
+
+print("\nEXERCISE 1 — LOAD IT")
+
+print(df.head())
+
+print("Shape:")
+print(df.shape)
+
+print("Columns:")
+print(df.columns.tolist())
+
+print("Data Types:")
+print(df.dtypes)
+
+
+# ==========================================
+# EXERCISE 2 — FILTER BY REGION
+# ==========================================
+
+print("\nEXERCISE 2 — FILTER BY REGION")
+
+south = df[df['region'] == 'South']
+
+print("Number of South rows:")
+print(len(south))
+
+print(south.head())
+
+
+# ==========================================
+# EXERCISE 3 — TOP 5 BY REVENUE
+# ==========================================
+
+print("\nEXERCISE 3 — TOP 5 BY REVENUE")
+
+top_five = df.sort_values(
+    'revenue',
+    ascending=False
+).head(5)
+
+print(top_five)
+
+
+# ==========================================
+# EXERCISE 4 — TWO-CONDITION FILTER
+# ==========================================
+
+print("\nEXERCISE 4 — TWO-CONDITION FILTER")
+
+big_south = df[
+    (df['region'] == 'South') &
+    (df['revenue'] > 1000)
+]
+
+print("Number of big South sales:")
+print(len(big_south))
+
+print(big_south.head())
+
+
+# ==========================================
+# EXERCISE 5 — A NEW COLUMN
+# ==========================================
+
+print("\nEXERCISE 5 — A NEW COLUMN")
+
+df['per_unit'] = df['revenue'] / df['quantity']
+
+print(df.head())
+
+print("Mean per-unit price:")
+print(df['per_unit'].mean())
+
+
+# ==========================================
+# EXERCISE 6 — UNIQUE VALUES
+# ==========================================
+
+print("\nEXERCISE 6 — UNIQUE VALUES")
+
+print("Unique regions:")
+print(df['region'].unique())
+
+print("Region counts:")
+print(df['region'].value_counts())
+
+
+# ==========================================
+# EXERCISE 7 — SELECT COLUMNS
+# ==========================================
+
+print("\nEXERCISE 7 — SELECT COLUMNS")
+
+selected_columns = df[['region', 'product', 'revenue']]
+
+print(selected_columns.shape)
+
+
+# ==========================================
+# EXERCISE 8 — SAVE
+# ==========================================
+
+print("\nEXERCISE 8 — SAVE")
+
+df.to_csv('data/explored.csv', index=False)
+
+print("File saved successfully: data/explored.csv")
